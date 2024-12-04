@@ -2,19 +2,24 @@ import React, { useState, useEffect } from 'react';
 import { 
   collection, 
   getDocs, 
-  addDoc, 
+  setDoc, 
   deleteDoc,
   doc, 
   query,
   where 
 } from 'firebase/firestore';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { 
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword 
+} from 'firebase/auth';
 import { auth, db } from '../../firebase/config';
 
 const UserManager = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
+  const [currentAdminEmail, setCurrentAdminEmail] = useState('');
+  const [currentAdminPassword, setCurrentAdminPassword] = useState('');
   const [newUser, setNewUser] = useState({
     email: '',
     password: '',
@@ -24,6 +29,11 @@ const UserManager = () => {
 
   useEffect(() => {
     fetchUsers();
+    // Store current admin credentials when component mounts
+    const currentUser = auth.currentUser;
+    if (currentUser) {
+      setCurrentAdminEmail(currentUser.email);
+    }
   }, []);
 
   const fetchUsers = async () => {
@@ -43,29 +53,41 @@ const UserManager = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    
     try {
-      // Create authentication user
+      // Store the current admin user
+      const currentAdmin = auth.currentUser;
+      
+      // Create new user
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         newUser.email,
         newUser.password
       );
-
-      // Add user to Firestore
-      await addDoc(collection(db, 'users'), {
+      
+      // Add user data to Firestore
+      const userDocRef = doc(db, 'users', userCredential.user.uid);
+      await setDoc(userDocRef, {
         uid: userCredential.user.uid,
-        email: newUser.email,
-        name: newUser.name,
         role: newUser.role,
+        name: newUser.name,
+        email: newUser.email,
         createdAt: new Date()
       });
+
+      // Sign back in as admin
+      if (currentAdmin && currentAdmin.email) {
+        // You'll need to implement a secure way to handle the admin password
+        // This is just a basic example
+        await signInWithEmailAndPassword(auth, currentAdmin.email, currentAdminPassword);
+      }
 
       setMessage('User created successfully!');
       setNewUser({ email: '', password: '', name: '', role: 'student' });
       fetchUsers();
     } catch (error) {
       console.error('Error creating user:', error);
-      setMessage('Failed to create user');
+      setMessage('Failed to create user: ' + error.message);
     } finally {
       setLoading(false);
     }
@@ -82,6 +104,7 @@ const UserManager = () => {
     }
   };
 
+  // The rest of your component remains the same...
   return (
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-6">Manage Users</h2>
@@ -93,6 +116,14 @@ const UserManager = () => {
           {message}
         </div>
       )}
+
+      {/* Add a hidden input for admin password if needed */}
+      <input
+        type="password"
+        value={currentAdminPassword}
+        onChange={(e) => setCurrentAdminPassword(e.target.value)}
+        className="hidden"
+      />
 
       {/* Add User Form */}
       <form onSubmit={handleSubmit} className="mb-8">

@@ -6,16 +6,17 @@ import UserManager from '../components/admin/UserManager';
 import ComplaintViewer from '../components/admin/ComplaintViewer';
 import TeacherStudentMapper from '../components/admin/TeacherStudentMapper';
 import Register from '../components/auth/Register';
+import LandingPage from '../components/admin/LandingPage';
 
 const AdminDashboard = () => {
   return (
     <Layout>
       <Routes>
-        <Route path="/" element={<Dashboard />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/stats" element={<Dashboard />} />
         <Route path="/users" element={<UserManager />} />
         <Route path="/complaints" element={<ComplaintViewer />} />
         <Route path="/mapping" element={<TeacherStudentMapper />} />
-        <Route path="/register" element={<Register />} />
       </Routes>
     </Layout>
   );

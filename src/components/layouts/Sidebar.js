@@ -29,7 +29,7 @@ const Sidebar = () => {
           { to: '/admin-dashboard/users', label: 'Manage Users', icon: '👥' },
           { to: '/admin-dashboard/complaints', label: 'View Complaints', icon: '📧' },
           { to: '/admin-dashboard/mapping', label: 'Teacher-Student Mapping', icon: '🔗' },
-          { to: '/admin-dashboard/register', label: 'Register', icon: '👥' },
+          // { to: '/admin-dashboard/register', label: 'Register', icon: '👥' },
         ];
       default:
         return [];

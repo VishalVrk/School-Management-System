@@ -59,6 +59,7 @@ function App() {
           <Routes>
             {/* Public Routes */}
             <Route path="/" element={<Login />} />
+            {/* <Route path="/register" element={<Register />} /> */}
 
             {/* Dashboard Routes */}
             {Object.values(dashboardRoutes).map(({ path, component: Component, roles }) => (
