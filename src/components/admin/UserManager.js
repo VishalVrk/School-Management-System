@@ -4,9 +4,7 @@ import {
   getDocs, 
   setDoc, 
   deleteDoc,
-  doc, 
-  query,
-  where 
+  doc
 } from 'firebase/firestore';
 import { 
   createUserWithEmailAndPassword,

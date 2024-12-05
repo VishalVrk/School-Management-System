@@ -3,11 +3,11 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import PrivateRoute from './components/auth/PrivateRoute';
+import { OpenFeatureProvider, OpenFeature } from '@openfeature/react-sdk'
+import DevCycleProvider from '@devcycle/openfeature-web-provider'
 
 // Pages
-import Home from './pages/Home';
 import Login from './pages/Login';
-import Register from './components/auth/Register';
 import StudentDashboard from './pages/StudentDashboard';
 import TeacherDashboard from './pages/TeacherDashboard';
 import AdminDashboard from './pages/AdminDashboard';
@@ -26,6 +26,9 @@ const firebaseConfig = {
   messagingSenderId: "259571680475",
   appId: "1:259571680475:web:3c8852251f9f697ecf38fe"
 };
+
+await OpenFeature.setContext({ user_id: 'user_id' })
+await OpenFeature.setProviderAndWait(new DevCycleProvider('dvc_client_9b49683d_afff_41f9_b34f_b58af0d43074_f0e296d'))
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -53,6 +56,7 @@ const dashboardRoutes = {
 
 function App() {
   return (
+    <OpenFeatureProvider>
     <Router>
       <AuthProvider>
         <div className="min-h-screen bg-gray-50">
@@ -80,6 +84,7 @@ function App() {
         </div>
       </AuthProvider>
     </Router>
+    </OpenFeatureProvider>
   );
 }
 
