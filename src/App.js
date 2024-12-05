@@ -17,6 +17,7 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
+const devCycleClient = process.env.REACT_APP_DEVCYCLE_CLIENT;
 
 // Firebase configuration - Move this to .env file in production
 const firebaseConfig = {
@@ -29,7 +30,7 @@ const firebaseConfig = {
 };
 
 
-const devCycleClient = process.env.REACT_APP_DEVCYCLE_CLIENT;
+
 
 // Check if the client key is available
 if (!devCycleClient) {
