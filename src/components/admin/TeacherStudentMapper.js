@@ -1,6 +1,6 @@
 // TeacherStudentMapper.js
 import React, { useState, useEffect } from 'react';
-import { collection, query, where, getDocs, addDoc, deleteDoc, doc } from 'firebase/firestore';
+import { collection, getDocs, addDoc, deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../../firebase/config';
 
 const TeacherStudentMapper = () => {

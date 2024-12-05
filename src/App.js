@@ -3,11 +3,11 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import PrivateRoute from './components/auth/PrivateRoute';
+import { OpenFeatureProvider, OpenFeature } from '@openfeature/react-sdk'
+import DevCycleProvider from '@devcycle/openfeature-web-provider'
 
 // Pages
-import Home from './pages/Home';
 import Login from './pages/Login';
-import Register from './components/auth/Register';
 import StudentDashboard from './pages/StudentDashboard';
 import TeacherDashboard from './pages/TeacherDashboard';
 import AdminDashboard from './pages/AdminDashboard';
@@ -17,15 +17,28 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
+const devCycleClient = process.env.REACT_APP_DEVCYCLE_CLIENT;
+
 // Firebase configuration - Move this to .env file in production
 const firebaseConfig = {
-  apiKey: "AIzaSyDUllCIW21CzR6RXGUuz7je1dHluZTSCQU",
-  authDomain: "school-management-132ef.firebaseapp.com",
-  projectId: "school-management-132ef",
-  storageBucket: "school-management-132ef.firebasestorage.app",
-  messagingSenderId: "259571680475",
-  appId: "1:259571680475:web:3c8852251f9f697ecf38fe"
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
+
+
+
+
+// Check if the client key is available
+if (!devCycleClient) {
+  console.error('DevCycle client key is not defined. Please set REACT_APP_DEVCYCLE_CLIENT in your environment variables.');
+}
+
+await OpenFeature.setContext({ user_id: 'user_id' })
+await OpenFeature.setProviderAndWait(new DevCycleProvider(devCycleClient))
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -53,12 +66,14 @@ const dashboardRoutes = {
 
 function App() {
   return (
+    <OpenFeatureProvider>
     <Router>
       <AuthProvider>
         <div className="min-h-screen bg-gray-50">
           <Routes>
             {/* Public Routes */}
             <Route path="/" element={<Login />} />
+            {/* <Route path="/" element={'Hello'} /> */}
             {/* <Route path="/register" element={<Register />} /> */}
 
             {/* Dashboard Routes */}
@@ -80,6 +95,7 @@ function App() {
         </div>
       </AuthProvider>
     </Router>
+    </OpenFeatureProvider>
   );
 }
 

@@ -5,7 +5,6 @@ import Dashboard from '../components/admin/Dashboard';
 import UserManager from '../components/admin/UserManager';
 import ComplaintViewer from '../components/admin/ComplaintViewer';
 import TeacherStudentMapper from '../components/admin/TeacherStudentMapper';
-import Register from '../components/auth/Register';
 import LandingPage from '../components/admin/LandingPage';
 
 const AdminDashboard = () => {
