@@ -17,18 +17,27 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
+
 // Firebase configuration - Move this to .env file in production
 const firebaseConfig = {
-  apiKey: "AIzaSyDUllCIW21CzR6RXGUuz7je1dHluZTSCQU",
-  authDomain: "school-management-132ef.firebaseapp.com",
-  projectId: "school-management-132ef",
-  storageBucket: "school-management-132ef.firebasestorage.app",
-  messagingSenderId: "259571680475",
-  appId: "1:259571680475:web:3c8852251f9f697ecf38fe"
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
 
+
+const devCycleClientKey = process.env.REACT_APP_DEVCYCLE_CLIENT_KEY;
+
+// Check if the client key is available
+if (!devCycleClientKey) {
+  console.error('DevCycle client key is not defined. Please set REACT_APP_DEVCYCLE_CLIENT_KEY in your environment variables.');
+}
+
 await OpenFeature.setContext({ user_id: 'user_id' })
-await OpenFeature.setProviderAndWait(new DevCycleProvider('dvc_client_9b49683d_afff_41f9_b34f_b58af0d43074_f0e296d'))
+await OpenFeature.setProviderAndWait(new DevCycleProvider(devCycleClientKey))
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -63,6 +72,7 @@ function App() {
           <Routes>
             {/* Public Routes */}
             <Route path="/" element={<Login />} />
+            {/* <Route path="/" element={'Hello'} /> */}
             {/* <Route path="/register" element={<Register />} /> */}
 
             {/* Dashboard Routes */}

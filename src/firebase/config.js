@@ -5,13 +5,28 @@ import {
 } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
+const requiredEnvVariables = [
+  'REACT_APP_FIREBASE_API_KEY',
+  'REACT_APP_FIREBASE_AUTH_DOMAIN',
+  'REACT_APP_FIREBASE_PROJECT_ID',
+  'REACT_APP_FIREBASE_STORAGE_BUCKET',
+  'REACT_APP_FIREBASE_MESSAGING_SENDER_ID',
+  'REACT_APP_FIREBASE_APP_ID',
+];
+
+requiredEnvVariables.forEach((variable) => {
+  if (!process.env[variable]) {
+    console.error(`Environment variable ${variable} is not defined.`);
+  }
+});
+
 const firebaseConfig = {
-    apiKey: "AIzaSyDUllCIW21CzR6RXGUuz7je1dHluZTSCQU",
-    authDomain: "school-management-132ef.firebaseapp.com",
-    projectId: "school-management-132ef",
-    storageBucket: "school-management-132ef.firebasestorage.app",
-    messagingSenderId: "259571680475",
-    appId: "1:259571680475:web:3c8852251f9f697ecf38fe"
+    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_FIREBASE_APP_ID,
   };
 
   const app = initializeApp(firebaseConfig);
