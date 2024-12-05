@@ -29,15 +29,15 @@ const firebaseConfig = {
 };
 
 
-const devCycleClientKey = process.env.REACT_APP_DEVCYCLE_CLIENT;
+const devCycleClient = process.env.REACT_APP_DEVCYCLE_CLIENT;
 
 // Check if the client key is available
-if (!devCycleClientKey) {
-  console.error('DevCycle client key is not defined. Please set REACT_APP_DEVCYCLE_CLIENT_KEY in your environment variables.');
+if (!devCycleClient) {
+  console.error('DevCycle client key is not defined. Please set REACT_APP_DEVCYCLE_CLIENT in your environment variables.');
 }
 
 await OpenFeature.setContext({ user_id: 'user_id' })
-await OpenFeature.setProviderAndWait(new DevCycleProvider(devCycleClientKey))
+await OpenFeature.setProviderAndWait(new DevCycleProvider(devCycleClient))
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
