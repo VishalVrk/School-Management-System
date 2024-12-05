@@ -29,7 +29,7 @@ const firebaseConfig = {
 };
 
 
-const devCycleClientKey = process.env.REACT_APP_DEVCYCLE_CLIENT_KEY;
+const devCycleClientKey = process.env.REACT_APP_DEVCYCLE_CLIENT;
 
 // Check if the client key is available
 if (!devCycleClientKey) {
