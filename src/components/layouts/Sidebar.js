@@ -11,18 +11,18 @@ const Sidebar = () => {
       case 'student':
         return [
           { to: '/student-dashboard', label: 'Overview', icon: '📊' },
-          // { to: '/student-dashboard/marks', label: 'Marks', icon: '📝' },
-          // { to: '/student-dashboard/attendance', label: 'Attendance', icon: '📅' },
-          // { to: '/student-dashboard/notes', label: 'Notes', icon: '📚' },
-          // { to: '/student-dashboard/complaints', label: 'Complaints', icon: '✋' },
+          { to: '/student-dashboard/marks', label: 'Marks', icon: '📝' },
+          { to: '/student-dashboard/attendance', label: 'Attendance', icon: '📅' },
+          { to: '/student-dashboard/notes', label: 'Notes', icon: '📚' },
+          { to: '/student-dashboard/complaints', label: 'Complaints', icon: '✋' },
           { to: '/student-dashboard/test', label: 'Test', icon: '📝' },
         ];
       case 'teacher':
         return [
           { to: '/teacher-dashboard', label: 'Overview', icon: '📊' },
-          // { to: '/teacher-dashboard/attendance', label: 'Mark Attendance', icon: '📅' },
-          // { to: '/teacher-dashboard/notes', label: 'Manage Notes', icon: '📚' },
-          // { to: '/teacher-dashboard/marks', label: 'Manage Marks', icon: '📝' },
+          { to: '/teacher-dashboard/attendance', label: 'Mark Attendance', icon: '📅' },
+          { to: '/teacher-dashboard/notes', label: 'Manage Notes', icon: '📚' },
+          { to: '/teacher-dashboard/marks', label: 'Manage Marks', icon: '📝' },
           { to: '/teacher-dashboard/test', label: 'Test', icon: '📝' },
         ];
       case 'admin':
